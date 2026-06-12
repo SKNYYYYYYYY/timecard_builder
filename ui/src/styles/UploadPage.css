@@ -1,0 +1,499 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ─────────────────────────────
+   RESET
+──────────────────────────── */
+
+/* ─────────────────────────────
+   PAGE BACKGROUND (UPGRADED)
+──────────────────────────── */
+.upload-page {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Inter', sans-serif;
+	padding: 2rem 1rem;
+
+	background: radial-gradient(circle at top,
+		#0b1224 0%,
+		#070b18 40%,
+		#050812 100%);
+
+	position: relative;
+	overflow: hidden;
+}
+
+/* soft animated glow */
+.upload-page::before {
+	content: '';
+	position: fixed;
+	top: -25%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 900px;
+	height: 900px;
+	border-radius: 50%;
+
+	background: radial-gradient(circle,
+		rgba(99,102,241,0.18),
+		rgba(139,92,246,0.08),
+		transparent 70%);
+
+	animation: floatGlow 8s ease-in-out infinite;
+	pointer-events: none;
+	z-index: 0;
+}
+
+@keyframes floatGlow {
+	0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.7; }
+	50% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+}
+
+/* subtle grid */
+.upload-page::after {
+	content: '';
+	position: fixed;
+	inset: 0;
+	background-image:
+		linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+	background-size: 50px 50px;
+	opacity: 0.4;
+	pointer-events: none;
+	z-index: 0;
+}
+
+/* ─────────────────────────────
+   CARD (GLASS PREMIUM)
+──────────────────────────── */
+.upload-card {
+	position: relative;
+	z-index: 1;
+
+	width: 520px;
+	max-width: 100%;
+
+	padding: 2rem;
+	border-radius: 20px;
+
+	background: rgba(15, 20, 40, 0.75);
+	backdrop-filter: blur(18px);
+
+	border: 1px solid rgba(99,102,241,0.18);
+
+	box-shadow:
+		0 20px 60px rgba(0,0,0,0.6),
+		0 0 100px rgba(99,102,241,0.08);
+
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.upload-card:hover {
+	transform: translateY(-3px);
+	box-shadow:
+		0 25px 70px rgba(0,0,0,0.7),
+		0 0 120px rgba(99,102,241,0.12);
+}
+
+/* ─────────────────────────────
+   HEADER
+──────────────────────────── */
+.upload-header {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-bottom: 1.5rem;
+}
+
+.upload-header-icon {
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+
+	background: linear-gradient(135deg, #6366f1, #8b5cf6);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	font-size: 22px;
+
+	box-shadow: 0 0 20px rgba(99,102,241,0.35);
+}
+
+.upload-header-text h1 {
+	font-family: 'Space Grotesk', sans-serif;
+	font-size: 17px;
+	font-weight: 700;
+	color: #f1f5f9;
+}
+
+.upload-header-text p {
+	font-size: 12.5px;
+	color: #94a3b8;
+}
+
+/* ─────────────────────────────
+   PROGRESS
+──────────────────────────── */
+.upload-pips {
+	display: flex;
+	justify-content: center;
+	gap: 6px;
+	margin-bottom: 1.5rem;
+}
+
+.upload-pip {
+	width: 28px;
+	height: 3px;
+	border-radius: 999px;
+	background: rgba(255,255,255,0.08);
+	transition: 0.3s;
+}
+
+.upload-pip.active {
+	background: #6366f1;
+	box-shadow: 0 0 10px rgba(99,102,241,0.6);
+}
+
+/* ─────────────────────────────
+   FILE SLOTS
+──────────────────────────── */
+.upload-slots {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+	margin-bottom: 1rem;
+}
+
+.upload-slot {
+	position: relative;
+	height: 150px;
+
+	border-radius: 14px;
+	border: 1.5px dashed rgba(99,102,241,0.25);
+
+	background: rgba(99,102,241,0.04);
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
+	transition: 0.25s ease;
+	text-align: center;
+}
+
+.upload-slot:hover {
+	border-color: rgba(99,102,241,0.7);
+	background: rgba(99,102,241,0.1);
+}
+
+.upload-slot.filled {
+	border-style: solid;
+	border-color: #6366f1;
+	background: rgba(99,102,241,0.12);
+}
+
+/* file input overlay */
+.upload-slot input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+/* slot number */
+.upload-slot-num {
+	position: absolute;
+	top: 10px;
+	left: 12px;
+
+	font-size: 10px;
+	letter-spacing: 0.1em;
+	color: rgba(148,163,184,0.5);
+}
+
+/* icon */
+.upload-slot-icon {
+	font-size: 28px;
+	transition: transform 0.2s ease;
+}
+
+.upload-slot:hover .upload-slot-icon {
+	transform: scale(1.1);
+}
+
+/* label */
+.upload-slot-label {
+	font-size: 12px;
+	color: #94a3b8;
+	word-break: break-word;
+}
+
+.upload-slot.filled .upload-slot-label {
+	color: #c7d2fe;
+}
+
+/* ─────────────────────────────
+   HINT
+──────────────────────────── */
+.upload-hint {
+	font-size: 11.5px;
+	color: #64748b;
+	text-align: center;
+	margin-bottom: 1.2rem;
+}
+
+/* ─────────────────────────────
+   PRIMARY BUTTON
+──────────────────────────── */
+.upload-btn {
+	width: 100%;
+	padding: 0.9rem;
+
+	border: none;
+	border-radius: 12px;
+
+	background: linear-gradient(135deg, #6366f1, #8b5cf6);
+	color: white;
+
+	font-size: 14px;
+	font-weight: 600;
+	font-family: 'Space Grotesk', sans-serif;
+
+	cursor: pointer;
+
+	box-shadow: 0 10px 30px rgba(99,102,241,0.35);
+	transition: 0.2s ease;
+
+	margin-bottom: 10px;
+}
+
+.upload-btn:hover:not(:disabled) {
+	transform: translateY(-2px);
+	box-shadow: 0 14px 40px rgba(99,102,241,0.5);
+}
+
+.upload-btn:disabled {
+	background: rgba(255,255,255,0.05);
+	color: #475569;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+
+/* ─────────────────────────────
+   SECONDARY BUTTON
+──────────────────────────── */
+.upload-nav-btn {
+	width: 100%;
+	padding: 0.8rem;
+
+	border-radius: 12px;
+	border: 1px solid rgba(99,102,241,0.25);
+
+	background: rgba(99,102,241,0.08);
+	color: #c7d2fe;
+
+	font-size: 13px;
+	font-weight: 600;
+
+	cursor: pointer;
+	transition: 0.2s ease;
+}
+
+.upload-nav-btn:hover {
+	background: rgba(99,102,241,0.15);
+	border-color: rgba(99,102,241,0.5);
+	transform: translateY(-1px);
+}
+
+/* ─────────────────────────────
+   RESPONSIVE
+──────────────────────────── */
+@media (max-width: 480px) {
+	.upload-card {
+		padding: 1.5rem;
+	}
+
+	.upload-slots {
+		grid-template-columns: 1fr;
+	}
+
+	.upload-slot {
+		height: 110px;
+	}
+}
+
+
+/* ─────────────────────────────
+   ERROR / MODAL OVERLAY
+──────────────────────────── */
+.error-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 999;
+	background: rgba(2, 6, 23, 0.7);
+	backdrop-filter: blur(8px);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	padding: 1rem;
+}
+
+/* ─────────────────────────────
+   MODAL CARD (GLASS STYLE)
+──────────────────────────── */
+.error-modal {
+	width: 420px;
+	max-width: 100%;
+
+	background: rgba(15, 20, 40, 0.85);
+	backdrop-filter: blur(18px);
+
+	border: 1px solid rgba(99, 102, 241, 0.2);
+	border-radius: 16px;
+
+	box-shadow:
+		0 25px 80px rgba(0, 0, 0, 0.65),
+		0 0 60px rgba(99, 102, 241, 0.1);
+
+	padding: 1.5rem;
+	color: #f1f5f9;
+
+	animation: modalPop 0.18s ease-out;
+}
+
+/* smooth entrance */
+@keyframes modalPop {
+	from {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+/* ─────────────────────────────
+   ICON WRAP
+──────────────────────────── */
+.error-icon-wrap {
+	font-size: 32px;
+	margin-bottom: 10px;
+	filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.35));
+}
+
+/* ─────────────────────────────
+   TEXT
+──────────────────────────── */
+.error-modal h2 {
+	font-family: 'Space Grotesk', sans-serif;
+	font-size: 18px;
+	margin-bottom: 6px;
+	color: #f8fafc;
+}
+
+.error-modal p {
+	font-size: 13px;
+	color: #94a3b8;
+	margin-bottom: 1rem;
+	line-height: 1.4;
+}
+
+/* ─────────────────────────────
+   RESULT LIST
+──────────────────────────── */
+.result-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+
+	max-height: 220px;
+	overflow-y: auto;
+
+	padding-right: 4px;
+	margin-bottom: 1rem;
+}
+
+.result-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 8px 10px;
+	border-radius: 10px;
+
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.05);
+
+	font-size: 12.5px;
+	color: #cbd5f5;
+}
+
+/* success / fail badges */
+.ok {
+	color: #22c55e;
+	font-weight: 600;
+}
+
+.fail {
+	color: #ef4444;
+	font-weight: 500;
+}
+
+/* ─────────────────────────────
+   MODAL ACTIONS
+──────────────────────────── */
+.modal-actions {
+	display: flex;
+	gap: 10px;
+	margin-top: 10px;
+}
+
+.modal-actions button,
+.error-modal button {
+	flex: 1;
+
+	padding: 0.7rem;
+	border-radius: 10px;
+
+	border: none;
+	cursor: pointer;
+
+	font-size: 13px;
+	font-weight: 600;
+
+	transition: 0.2s ease;
+}
+
+/* primary action */
+.modal-actions button:first-child {
+	background: linear-gradient(135deg, #6366f1, #8b5cf6);
+	color: white;
+	box-shadow: 0 10px 25px rgba(99, 102, 241, 0.35);
+}
+
+.modal-actions button:first-child:hover {
+	transform: translateY(-2px);
+}
+
+/* secondary / dismiss */
+.modal-actions button:last-child,
+.error-modal > button {
+	background: rgba(99, 102, 241, 0.08);
+	border: 1px solid rgba(99, 102, 241, 0.25);
+	color: #c7d2fe;
+}
+
+.modal-actions button:last-child:hover,
+.error-modal > button:hover {
+	background: rgba(99, 102, 241, 0.15);
+	border-color: rgba(99, 102, 241, 0.5);
+	transform: translateY(-1px);
+}

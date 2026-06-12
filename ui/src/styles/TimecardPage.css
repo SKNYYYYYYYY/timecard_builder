@@ -1,0 +1,11 @@
+.timecard-page {
+    height: 100vh;   
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.timecard-container {
+    height: 100%;         
+    overflow: hidden;
+    max-width: 100%;
+}

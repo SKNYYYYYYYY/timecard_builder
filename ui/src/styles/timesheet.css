@@ -1,0 +1,737 @@
+.table-wrapper {
+    flex: 1;
+    width: 100%;
+    min-width: 0;          /* ✅ prevents flex/grid children from overflowing */
+    overflow-x: auto;
+    background: white;
+    overflow: auto;  
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.timesheet-table {
+	width: max-content;
+	border-collapse: separate;
+	border-spacing: 0;
+	font-size: 14px;
+	background: white;
+}
+
+.timesheet-table th,
+.timesheet-table td {
+	padding: 12px;
+	vertical-align: top;
+	border-right: 1px solid #e2e8f0;
+	border-bottom: 1px solid #e2e8f0;
+}
+
+.timesheet-table th:last-child,
+.timesheet-table td:last-child {
+	border-right: none;
+}
+
+.timesheet-table thead th {
+    background: #0a2540;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+    position: sticky;
+    top: 0;             /* ✅ sits just below the fixed toolbar */
+    z-index: 2;
+}
+
+.timesheet-table thead th:first-child {
+	text-align: left;
+	min-width: 180px;
+}
+
+.type-cell {
+	min-width: 180px;
+	font-weight: 600;
+	position: sticky;
+	left: 0;
+	z-index: 1;
+	vertical-align: middle;
+}
+
+.entry-cell {
+	min-width: 260px;
+	background: white;
+}
+
+.entry-block {
+	padding: 14px;
+	border-radius: 10px;
+	border: 1px solid #e2e8f0;
+	background: #f8fafc;
+}
+
+.time-field {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 6px 0;
+	gap: 12px;
+}
+
+.label {
+	font-weight: 600;
+	color: #2564ebf1;
+	white-space: nowrap;
+}
+
+.time-field span:last-child {
+	color: #334155;
+	text-align: right;
+	word-break: break-word;
+}
+
+/* Shift Allowance */
+
+.shift-row .type-cell {
+	background: #eff6ff;
+	color: #1d4ed8;
+}
+
+.shift-row .entry-block {
+	background: #f8fafc;
+	border-color: #cbd5e1;
+}
+
+/* Overtime 1.5 */
+
+.ot15-row .type-cell {
+	background: #fef3c7;
+	color: #5a5117;
+}
+
+.ot15-row .entry-block {
+	background: #fffbeb;
+	border-color: #facc15;
+}
+
+/* Overtime 2.0 */
+
+.ot20-row .type-cell {
+	background: #fee2e2;
+	color: #b91c1c;
+}
+
+.ot20-row .entry-block {
+	background: #fef2f2;
+	border-color: #fca5a5;
+}
+
+/* Hover */
+
+.timesheet-table tbody tr:hover td {
+	background: #f8fbff;
+}
+
+.timesheet-table tbody tr:hover .type-cell {
+	filter: brightness(0.98);
+}
+
+
+.row-total {
+	background: #f1f5f9;
+	font-weight: 700;
+	text-align: center;
+	vertical-align:auto;
+}
+
+.hours-small {
+	margin-top: 6px;
+	font-size: 12px;
+	color: #5a5a5a;
+	text-align: right;
+}
+
+.grand-total-row td {
+	background: #dadcde;
+  color:#5a5a5a;
+	font-weight: 700;
+	text-align: center;
+}
+
+
+
+/* Click-to-copy value */
+.time-value.copyable {
+	cursor: pointer;
+	border-radius: 4px;
+	padding: 1px 4px;
+	transition: background 0.15s;
+}
+.time-value.copyable:hover {
+	background: #dbeafe;
+	color: #1d4ed8;
+}
+.copied-flash {
+	color: #16a34a;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+/* Entry footer: hours + edit button side by side */
+.entry-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 6px;
+}
+
+/* Edit button */
+.btn-edit {
+	font-size: 11px;
+	font-weight: 600;
+	color: #a2bdf0;
+	background: #eff6ff;
+	border: 1px solid #bfdbfe;
+	border-radius: 5px;
+	padding: 2px 8px;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+	line-height: 1.6;
+}
+.btn-edit:hover {
+	background: #2563eb;
+	color: white;
+}
+
+/* Editing state block */
+.entry-block--editing {
+	border-color: #2563eb;
+	background: #f0f7ff;
+}
+
+.edit-field {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 0;
+	gap: 8px;
+}
+
+.edit-input {
+	font-size: 13px;
+	border: 1px solid #cbd5e1;
+	border-radius: 5px;
+	padding: 3px 6px;
+	color: #1e293b;
+	background: white;
+	width: 130px;
+}
+.edit-input--comment {
+	width: 130px;
+}
+.edit-input:focus {
+	outline: none;
+	border-color: #2563eb;
+	box-shadow: 0 0 0 2px #bfdbfe;
+}
+
+/* Commit / Cancel buttons */
+.edit-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 6px;
+	margin-top: 8px;
+}
+.btn-commit {
+	font-size: 12px;
+	font-weight: 700;
+	background: #2563eb;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 4px 12px;
+	cursor: pointer;
+	transition: background 0.15s;
+}
+.btn-commit:hover {
+	background: #1d4ed8;
+}
+.btn-cancel {
+	font-size: 12px;
+	font-weight: 700;
+	background: #f1f5f9;
+	color: #64748b;
+	border: 1px solid #cbd5e1;
+	border-radius: 5px;
+	padding: 4px 10px;
+	cursor: pointer;
+	transition: background 0.15s;
+}
+.btn-cancel:hover {
+	background: #e2e8f0;
+}
+
+
+/* ─── PASTE THESE ADDITIONS INTO YOUR timesheet.css ─── */
+
+/* Add Row row */
+.add-row-tr td {
+	background: #f8fafc;
+	border-top: 2px dashed #cbd5e1;
+	padding: 10px 16px;
+}
+
+.add-row-container {
+	position: relative;
+	display: inline-block;
+}
+
+.btn-add-row {
+	font-size: 13px;
+	font-weight: 600;
+	color: #2563eb;
+	background: white;
+	border: 1.5px dashed #2563eb;
+	border-radius: 6px;
+	padding: 6px 16px;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+}
+.btn-add-row:hover {
+	background: #2563eb;
+	color: white;
+}
+
+/* Dropdown picker */
+.add-row-picker {
+	position: absolute;
+	top: calc(100% + 6px);
+	left: 0;
+	z-index: 10;
+	background: white;
+	border: 1px solid #e2e8f0;
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	min-width: 180px;
+}
+
+.picker-option {
+	display: block;
+	width: 100%;
+	text-align: left;
+	padding: 10px 16px;
+	font-size: 13px;
+	font-weight: 600;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	transition: background 0.12s;
+	border-bottom: 1px solid #f1f5f9;
+}
+.picker-option:last-child {
+	border-bottom: none;
+}
+
+.picker-option--shift {
+	color: #1d4ed8;
+}
+.picker-option--shift:hover {
+	background: #eff6ff;
+}
+
+.picker-option--ot15 {
+	color: #b45309;
+}
+.picker-option--ot15:hover {
+	background: #fef3c7;
+}
+
+.picker-option--ot20 {
+	color: #b91c1c;
+}
+.picker-option--ot20:hover {
+	background: #fee2e2;
+}
+
+/* Click-to-copy value */
+.time-value.copyable {
+	cursor: pointer;
+	border-radius: 4px;
+	padding: 1px 4px;
+	transition: background 0.15s;
+}
+.time-value.copyable:hover {
+	background: #dbeafe;
+	color: #1d4ed8;
+}
+.copied-flash {
+	color: #16a34a;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+/* Entry footer: hours + edit button side by side */
+.entry-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 6px;
+}
+
+/* Edit button */
+.btn-edit {
+	font-size: 11px;
+	font-weight: 600;
+	color: #2563eb;
+	background: #eff6ff;
+	border: 1px solid #bfdbfe;
+	border-radius: 5px;
+	padding: 2px 8px;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+	line-height: 1.6;
+}
+.btn-edit:hover {
+	background: #2563eb;
+	color: white;
+}
+
+/* Editing state block */
+.entry-block--editing {
+	border-color: #2563eb;
+	background: #f0f7ff;
+}
+
+.edit-field {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 0;
+	gap: 8px;
+}
+
+.edit-input {
+	font-size: 13px;
+	border: 1px solid #cbd5e1;
+	border-radius: 5px;
+	padding: 3px 6px;
+	color: #1e293b;
+	background: white;
+	width: 130px;
+}
+.edit-input--comment {
+	width: 130px;
+}
+.edit-input:focus {
+	outline: none;
+	border-color: #2563eb;
+	box-shadow: 0 0 0 2px #bfdbfe;
+}
+
+/* Commit / Cancel buttons */
+.edit-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 6px;
+	margin-top: 8px;
+}
+.btn-commit {
+	font-size: 12px;
+	font-weight: 700;
+	background: #2563eb;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 4px 12px;
+	cursor: pointer;
+	transition: background 0.15s;
+}
+.btn-commit:hover {
+	background: #1d4ed8;
+}
+.btn-cancel {
+	font-size: 12px;
+	font-weight: 700;
+	background: #f1f5f9;
+	color: #64748b;
+	border: 1px solid #cbd5e1;
+	border-radius: 5px;
+	padding: 4px 10px;
+	cursor: pointer;
+	transition: background 0.15s;
+}
+.btn-cancel:hover {
+	background: #e2e8f0;
+}
+
+/* ─── PASTE THESE ADDITIONS INTO YOUR timesheet.css ─── */
+
+.sheet-outer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+/* ─── Undo / Redo toolbar ─── */
+.history-toolbar {
+   background: #e0e5ead0;
+    flex-shrink: 0; 
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    left: 0;
+    top: 0;
+     z-index: 20;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-history {
+	font-size: 13px;
+	font-weight: 600;
+	color: #334155;
+	background: white;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	padding: 5px 14px;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+.btn-history:hover:not(:disabled) {
+	background: #1e293b;
+	color: white;
+	border-color: #1e293b;
+}
+.btn-history:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.history-label {
+	font-size: 12px;
+	color: #94a3b8;
+	margin-left: 4px;
+}
+
+.btn-back {
+	font-size: 13px;
+	font-weight: 600;
+	color: #334155;
+	background: white;
+	border: 1px solid #cbd5e1;
+	border-radius: 6px;
+	padding: 5px 14px;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+}
+.btn-back:hover {
+	background: #1e293b;
+	color: white;
+	border-color: #1e293b;
+}
+
+.toolbar-divider {
+	width: 1px;
+	height: 22px;
+	background: #e2e8f0;
+	margin: 0 4px;
+}
+
+/* Add Row row */
+.add-row-tr td {
+	background: #f8fafc;
+	border-top: 2px dashed #cbd5e1;
+	padding: 10px 16px;
+}
+
+.add-row-container {
+	position: relative;
+	display: inline-block;
+}
+
+.btn-add-row {
+	font-size: 13px;
+	font-weight: 600;
+	color: #2563eb;
+	background: white;
+	border: 1.5px dashed #2563eb;
+	border-radius: 6px;
+	padding: 6px 16px;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+}
+.btn-add-row:hover {
+	background: #2563eb;
+	color: white;
+}
+
+/* Dropdown picker */
+.add-row-picker {
+	position: absolute;
+	top: calc(100% + 6px);
+	left: 0;
+	z-index: 10;
+	background: white;
+	border: 1px solid #e2e8f0;
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	min-width: 180px;
+}
+
+.picker-option {
+	display: block;
+	width: 100%;
+	text-align: left;
+	padding: 10px 16px;
+	font-size: 13px;
+	font-weight: 600;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	transition: background 0.12s;
+	border-bottom: 1px solid #f1f5f9;
+}
+.picker-option:last-child {
+	border-bottom: none;
+}
+
+.picker-option--shift {
+	color: #1d4ed8;
+}
+.picker-option--shift:hover {
+	background: #eff6ff;
+}
+
+.picker-option--ot15 {
+	color: #b45309;
+}
+.picker-option--ot15:hover {
+	background: #fef3c7;
+}
+
+.picker-option--ot20 {
+	color: #b91c1c;
+}
+.picker-option--ot20:hover {
+	background: #fee2e2;
+}
+
+/* Click-to-copy value */
+.time-value.copyable {
+	cursor: pointer;
+	border-radius: 4px;
+	padding: 1px 4px;
+	transition: background 0.15s;
+}
+.time-value.copyable:hover {
+	background: #dbeafe;
+	color: #1d4ed8;
+}
+.copied-flash {
+	color: #16a34a;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+/* Entry footer: hours + edit button side by side */
+.entry-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 6px;
+}
+
+/* Edit button */
+.btn-edit {
+	font-size: 11px;
+	font-weight: 600;
+	color: #2563eb;
+	background: #eff6ff;
+	border: 1px solid #bfdbfe;
+	border-radius: 5px;
+	padding: 2px 8px;
+	cursor: pointer;
+	transition: background 0.15s, color 0.15s;
+	line-height: 1.6;
+}
+.btn-edit:hover {
+	background: #2563eb;
+	color: white;
+}
+
+/* Editing state block */
+.entry-block--editing {
+	border-color: #2563eb;
+	background: #f0f7ff;
+}
+
+.edit-field {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 0;
+	gap: 8px;
+}
+
+.edit-input {
+	font-size: 13px;
+	border: 1px solid #cbd5e1;
+	border-radius: 5px;
+	padding: 3px 6px;
+	color: #1e293b;
+	background: white;
+	width: 130px;
+}
+.edit-input--comment {
+	width: 130px;
+}
+.edit-input:focus {
+	outline: none;
+	border-color: #2563eb;
+	box-shadow: 0 0 0 2px #bfdbfe;
+}
+
+/* Commit / Cancel buttons */
+.edit-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 6px;
+	margin-top: 8px;
+}
+.btn-commit {
+	font-size: 12px;
+	font-weight: 700;
+	background: #2563eb;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 4px 12px;
+	cursor: pointer;
+	transition: background 0.15s;
+}
+.btn-commit:hover {
+	background: #1d4ed8;
+}
+.btn-cancel {
+	font-size: 12px;
+	font-weight: 700;
+	background: #f1f5f9;
+	color: #64748b;
+	border: 1px solid #cbd5e1;
+	border-radius: 5px;
+	padding: 4px 10px;
+	cursor: pointer;
+	transition: background 0.15s;
+}
+.btn-cancel:hover {
+	background: #e2e8f0;
+}
+
+.timesheet-table {
+	width: max-content;
+	table-layout: auto;
+}
+
+.entry-cell {
+	min-width: 260px;
+}
+
